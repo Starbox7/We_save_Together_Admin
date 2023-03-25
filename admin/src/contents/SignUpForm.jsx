@@ -57,6 +57,8 @@ const Button = styled.button`
 
 const InputWrapper = styled.div`
   position: relative;
+  display: inline-block;
+  width: 100%;
 `;
 
 export default function SignUpForm() {
