@@ -61,69 +61,42 @@ const AuthButton = styled.button`
   font-size: 18px;
   color: #333;
   cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
-
-  &:first-child {
-    margin-right: 15px;
-    position: relative;
-
-    &:after {
-      content: '';
-      position: absolute;
-      right: -10px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 1px;
-      height: 70%;
-      background-color: #333;
-    }
-  }
 `;
 
 const Link = styled(OriginalLink)`
   text-decoration: none;
 `;
 
-
-
 const Header = () => {
-    return (
-        <HeaderComponent>
-            <Link to="/">
-                <Logo>Code for DCU</Logo>
+  return (
+    <HeaderComponent>
+      <Link to="/">
+        <Logo>Code for DCU</Logo>
+      </Link>
+      <MenuWrapper>
+        <Menu>
+          <MenuItem>
+            <Link to="/introproject">
+              <MenuTitle>프로젝트 소개</MenuTitle>
             </Link>
-            <MenuWrapper>
-                <Menu>
-                    <MenuItem>
-                        <Link to="/introproject">
-                            <MenuTitle>프로젝트 소개</MenuTitle>
-                        </Link>
-                    </MenuItem>
-                    <MenuItem>
-                        <Link to="/introteam">
-                            <MenuTitle>팀 소개</MenuTitle>
-                        </Link>
-                    </MenuItem>
-                </Menu>
-            </MenuWrapper>
-            <Auth>
-                <Link to="/signin">
-                    <AuthButton>로그인</AuthButton>
-                </Link>
-                <Link to="/signup">
-                    <AuthButton>회원가입</AuthButton>
-                </Link>
-            </Auth>
-        </HeaderComponent>
-    );
+          </MenuItem>
+          <MenuItem>
+            <Link to="/introteam">
+              <MenuTitle>팀 소개</MenuTitle>
+            </Link>
+          </MenuItem>
+        </Menu>
+      </MenuWrapper>
+      <Auth>
+        <Link to="/signin">
+          <AuthButton>로그인</AuthButton>
+        </Link>
+        <Link to="/signup">
+          <AuthButton>회원가입</AuthButton>
+        </Link>
+      </Auth>
+    </HeaderComponent>
+  );
 };
 
 export default Header;
-
-
-
-
-
