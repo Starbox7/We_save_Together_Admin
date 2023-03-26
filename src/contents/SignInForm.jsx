@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Container } from '../components/SignContainer';
+import React, { useState } from "react";
+import styled from "styled-components";
 
+export const Container = styled.div`
+  max-width: 600px;
+  margin: 270px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
 
 const Form = styled.form`
   display: flex;
@@ -59,13 +66,10 @@ const InputWrapper = styled.div`
   position: relative;
 `;
 
-
-
 export default function SignInForm() {
-
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -81,10 +85,10 @@ export default function SignInForm() {
     let newErrors = { ...errors };
 
     switch (name) {
-      case 'email':
+      case "email":
         const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
         if (!emailRegex.test(value)) {
-          newErrors.email = '올바른 이메일 형식이 아닙니다.';
+          newErrors.email = "올바른 이메일 형식이 아닙니다.";
         } else {
           delete newErrors.email;
         }
@@ -110,13 +114,27 @@ export default function SignInForm() {
     <Container>
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="email">이메일</Label>
-        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} />
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
         {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
 
         <Label htmlFor="password">비밀번호</Label>
         <InputWrapper>
-          <Input id="password" name="password" type={passwordVisible ? 'text' : 'password'} value={formData.password} onChange={handleChange} />
-          <EyeIcon onClick={togglePasswordVisibility}>{passwordVisible ? '👁️' : '🙈'}</EyeIcon>
+          <Input
+            id="password"
+            name="password"
+            type={passwordVisible ? "text" : "password"}
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <EyeIcon onClick={togglePasswordVisibility}>
+            {passwordVisible ? "👁️" : "🙈"}
+          </EyeIcon>
         </InputWrapper>
 
         <Button type="submit" disabled={Object.keys(errors).length > 0}>
@@ -125,10 +143,15 @@ export default function SignInForm() {
       </Form>
       <div>
         <a href="/find-id">아이디 찾기</a>
-        <a href="/find-password" style={{
-          marginLeft: '10px'
-        }}>비밀번호 찾기</a>
+        <a
+          href="/find-password"
+          style={{
+            marginLeft: "10px",
+          }}
+        >
+          비밀번호 찾기
+        </a>
       </div>
     </Container>
-  )
+  );
 }
