@@ -13,13 +13,14 @@ const AuthRepository = create((set) => ({
   },
   certificate: async (phone, number) => {
     try {
+      console.log();
       await axios.get(`http://127.0.0.1:5001/auth/certificate/${phone}/${number}`);
       set(() => ({ isAuth: true }));
     } catch (err) {
       set(() => ({ isAuth: false }));
       console.log(err);
     } finally {
-      console.log(set((state) => ({ ...state.isAuth })));
+      // set((state) => ({ ...state.isAuth }));
     }
   },
   register: async (formData) => {
