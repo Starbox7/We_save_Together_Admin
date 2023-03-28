@@ -1,21 +1,14 @@
-/** librarys */
+/** import library */
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+/** import page */
+import Home from "./page/visit/Home";
 
-/** pages */
-import Home from "./pages/Home";
-import IntroProject from "./pages/IntroProject";
-import IntroTeam from "./pages/IntroTeam";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
 
+/** Route Area */
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/introproject" element={<IntroProject />} />
-        <Route path="/introteam" element={<IntroTeam />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
         <Route path="/*" element={<Home />} />
       </Routes>
     </BrowserRouter>
