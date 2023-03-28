@@ -1,8 +1,8 @@
 /** import library */
 import styled from 'styled-components';
 /** import component */
-import Content from '../../components/visit/Content';
 import Footer from '../../components/visit/Footer';
+import TeamInfo from '../../components/visit/TeamInfo';
 /** import Color */
 import { AdminColor } from '../../asset/Colors';
 
@@ -12,13 +12,13 @@ const Container = styled.div`
   background-color: ${AdminColor.Orange};
 `;
 
-function Home() {
+function Team() {
   return (
     <Container>
-      <Content />
+      <TeamInfo />
       <Footer />
     </Container>
   );
 }
 
-export default Home;
+export default Team;
