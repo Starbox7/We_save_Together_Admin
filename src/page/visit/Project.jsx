@@ -1,7 +1,7 @@
 /** import library */
 import styled from 'styled-components';
 /** import component */
-import Content from '../../components/visit/Content';
+import ProjectInfo from '../../components/visit/ProjectInfo';
 import Footer from '../../components/visit/Footer';
 /** import Color */
 import { AdminColor } from '../../asset/Colors';
@@ -12,13 +12,13 @@ const Container = styled.div`
   background-color: ${AdminColor.Orange};
 `;
 
-function Home() {
+function Project() {
   return (
     <Container>
-      <Content />
+      <ProjectInfo />
       <Footer />
     </Container>
   );
 }
 
-export default Home;
+export default Project;
