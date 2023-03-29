@@ -7,8 +7,6 @@ const Container = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   align-items: flex-end;
-  width: 100%;
-  height: 100%;
   padding: 70px;
 `;
 const SloganText = styled.h1`
