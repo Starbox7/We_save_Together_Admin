@@ -2,14 +2,14 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 /** import Icon */
-import { BsDoorOpenFill, BsFillPersonCheckFill, BsFillSearchHeartFill } from 'react-icons/bs'
+import { BsDoorOpenFill, BsFillPersonCheckFill, BsFillSearchHeartFill } from 'react-icons/bs';
 
 /** styled-component */
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 350px;
-  `;
+  padding-top: 150px;
+`;
 const CountType = styled.p`
   display: flex;
   align-items: center;
@@ -24,15 +24,14 @@ const CountText = styled.p`
   font-weight: bold;
   margin-top: 25px;
   text-decoration: line-through;
-`
+`;
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
   margin: 10px;
-`
+`;
 
 function Count() {
-
   const [todayVisitNum, setTodayVisitNum] = useState(null);
   const [totalVisitNum, setTotalVisitNum] = useState(null);
   const [totalVisitorNum, setTotalVisitorNum] = useState(null);
@@ -58,29 +57,26 @@ function Count() {
 
   return (
     <Container>
-      <CountType>Visits today
+      <CountType>
+        Visits today
         <IconContainer>
-          <BsFillSearchHeartFill size="27" color='red' />
+          <BsFillSearchHeartFill size="27" color="red" />
         </IconContainer>
-        <CountText>
-          {todayVisitNum}
-        </CountText>
+        <CountText>{todayVisitNum}</CountText>
       </CountType>
-      <CountType>Total visits
+      <CountType>
+        Total visits
         <IconContainer>
-          <BsDoorOpenFill size="27" color='brown' />
+          <BsDoorOpenFill size="27" color="brown" />
         </IconContainer>
-        <CountText>
-          {totalVisitNum}
-        </CountText>
+        <CountText>{totalVisitNum}</CountText>
       </CountType>
-      <CountType>Total visitors
+      <CountType>
+        Total visitors
         <IconContainer>
-          <BsFillPersonCheckFill size="27" color='green' />
+          <BsFillPersonCheckFill size="27" color="green" />
         </IconContainer>
-        <CountText>
-          {totalVisitorNum}
-        </CountText>
+        <CountText>{totalVisitorNum}</CountText>
       </CountType>
     </Container>
   );
