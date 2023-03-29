@@ -1,5 +1,7 @@
 /** import library */
 import styled from 'styled-components';
+/** import component */
+import TeamImage from './TeamImage';
 import Header from './Header';
 /** import Color */
 import { AdminColor } from '../../asset/Colors';
@@ -59,6 +61,7 @@ function TeamInfo() {
     <Container>
       <Header />
       <TeamContainer>
+
         <TeamIntro>"코드forDCU"는 대구 가톨릭 대학교의 모바일 소프트웨어 전공 소속 학생들로 구성된 팀입니다.</TeamIntro>
         <TeamIntro>이 팀은 캡스톤 프로젝트를 위해 만들어졌으며, 환경보호 캠페인 플랫폼을 만들어 환경보호에 기여하는 것이 목표입니다.</TeamIntro>
         <TopContainer>
