@@ -23,6 +23,8 @@ const IntroContainer = styled.div`
 `;
 const TopContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 30px;
 `;
 const BottomContainer = styled.div`
@@ -47,6 +49,9 @@ const ServiceDescription = styled.p`
   font-size: 18px;
   text-align: center;
 `;
+const Title = styled.h1`
+  
+`
 
 function TeamInfo() {
   return (
@@ -54,6 +59,7 @@ function TeamInfo() {
       <Header />
       <IntroContainer>
         <TopContainer>
+          <Title>우리 함께 해요 We save Together : 환경보호를 위한 캠페인 플랫폼</Title>
           <ServiceCard>
             <ServiceTitle>캠페인 참가자 App</ServiceTitle>
             <ServiceDescription>캠페인 참가자 앱은 참가자들이 캠페인에 참여하고, 행사 정보를 확인할 수 있는 모바일 앱입니다.</ServiceDescription>

@@ -80,37 +80,37 @@ const IconContainer = styled.div`
   margin-right: 10px;
 `;
 
-function SignInForm() {
-  const [eye, setEye] = useState(true);
-  const [inputType, setInputType] = useState('password');
-  const State = () => {
-    setInputType(inputType === 'password' ? 'text' : 'password');
-    setEye(eye === true ? false : true);
-  };
+function SignUpForm() {
+    const [eye, setEye] = useState(true);
+    const [inputType, setInputType] = useState('password');
+    const State = () => {
+        setInputType(inputType === 'password' ? 'text' : 'password');
+        setEye(eye === true ? false : true);
+    };
 
-  return (
-    <Container>
-      <Header />
-      <SignInContainer>
-        <ImageContainer>
-          <TeamImage />
-        </ImageContainer>
-        <InputContainer>
-          <Text>ID</Text>
-          <Input />
-        </InputContainer>
-        <InputContainer>
-          <Text>PW</Text>
-          <Input type={inputType} />
-          <IconContainer>{eye ? <AiFillEyeInvisible size={20} onClick={() => State()} /> : <AiFillEye size={20} onClick={() => State()} />}</IconContainer>
-        </InputContainer>
-        <ButtonContainer>
-          <Button>Sign In</Button>
-          <Button>Sign Up</Button>
-        </ButtonContainer>
-      </SignInContainer>
-    </Container>
-  );
+    return (
+        <Container>
+            <Header />
+            <SignInContainer>
+                <ImageContainer>
+                    <TeamImage />
+                </ImageContainer>
+                <InputContainer>
+                    <Text>ID</Text>
+                    <Input />
+                </InputContainer>
+                <InputContainer>
+                    <Text>PW</Text>
+                    <Input type={inputType} />
+                    <IconContainer>{eye ? <AiFillEyeInvisible size={20} onClick={() => State()} /> : <AiFillEye size={20} onClick={() => State()} />}</IconContainer>
+                </InputContainer>
+                <ButtonContainer>
+                    <Button>Sign In</Button>
+                    <Button>Sign Up</Button>
+                </ButtonContainer>
+            </SignInContainer>
+        </Container>
+    );
 }
 
-export default SignInForm;
+export default SignUpForm;
