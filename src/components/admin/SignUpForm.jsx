@@ -1,14 +1,15 @@
 /** import library */
 import styled from 'styled-components';
 import { useState } from 'react';
+import { Link as OriginalLink } from 'react-router-dom';
 /** import component */
 import Header from '../visit/Header';
 /** import Color */
 import { AdminColor, BorderColor, DetailBackgroundColor } from '../../asset/Colors';
 /** import asset */
 import TeamImage from '../visit/TeamImage';
-/** import Icon */
-import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
+/** import Repository */
+import AuthRepository from '../../service/authRepository';
 
 /** styled-component */
 const Container = styled.div`
@@ -47,7 +48,7 @@ const InputContainer = styled.div`
 const Input = styled.input`
   display: flex;
   height: 50px;
-  width: 310px;
+  width: 290px;
   border: none;
   outline: 0px;
   padding-left: 10px;
@@ -74,43 +75,57 @@ const Text = styled.p`
   padding-left: 25px;
   padding-top: 2px;
   border-right: 1px solid ${BorderColor.bdcGreen1};
+  justify-content: center;
+  width: 50px;
 `;
-const IconContainer = styled.div`
-  display: flex;
-  margin-right: 10px;
+const Link = styled(OriginalLink)`
+  text-decoration: none;
+  color: ${AdminColor.Black};
 `;
 
 function SignUpForm() {
-    const [eye, setEye] = useState(true);
-    const [inputType, setInputType] = useState('password');
-    const State = () => {
-        setInputType(inputType === 'password' ? 'text' : 'password');
-        setEye(eye === true ? false : true);
-    };
+  const { confirmAdmin } = AuthRepository();
+  const [confirmData, setConfirmData] = [
+    {
+      name: '',
+      hakbun: '',
+      email: '',
+      phone: '',
+    },
+  ];
 
-    return (
-        <Container>
-            <Header />
-            <SignInContainer>
-                <ImageContainer>
-                    <TeamImage />
-                </ImageContainer>
-                <InputContainer>
-                    <Text>ID</Text>
-                    <Input />
-                </InputContainer>
-                <InputContainer>
-                    <Text>PW</Text>
-                    <Input type={inputType} />
-                    <IconContainer>{eye ? <AiFillEyeInvisible size={20} onClick={() => State()} /> : <AiFillEye size={20} onClick={() => State()} />}</IconContainer>
-                </InputContainer>
-                <ButtonContainer>
-                    <Button>Sign In</Button>
-                    <Button>Sign Up</Button>
-                </ButtonContainer>
-            </SignInContainer>
-        </Container>
-    );
+  return (
+    <Container>
+      <Header />
+      <SignInContainer>
+        <ImageContainer>
+          <TeamImage />
+        </ImageContainer>
+        <InputContainer>
+          <Text>Name</Text>
+          <Input placeholder="이름을 입력하세요" onChange={(e) => setConfirmData.name(e.target.value)} />
+        </InputContainer>
+        <InputContainer>
+          <Text>Hakbun</Text>
+          <Input placeholder="학번을 입력하세요" onChange={(e) => setConfirmData.hakbun(e.target.value)} />
+        </InputContainer>
+        <InputContainer>
+          <Text>Email</Text>
+          <Input placeholder="이메일을 입력하세요" onChange={(e) => setConfirmData.email(e.target.value)} />
+        </InputContainer>
+        <InputContainer>
+          <Text>Phone</Text>
+          <Input placeholder="휴대폰 번호를 입력하세요" onChange={(e) => setConfirmData.phone(e.target.value)} />
+        </InputContainer>
+        <ButtonContainer>
+          <Link to="/in">
+            <Button>Sign In</Button>
+          </Link>
+          <Button>Next</Button>
+        </ButtonContainer>
+      </SignInContainer>
+    </Container>
+  );
 }
 
 export default SignUpForm;

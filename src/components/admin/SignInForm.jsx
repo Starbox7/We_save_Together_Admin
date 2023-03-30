@@ -1,6 +1,7 @@
 /** import library */
 import styled from 'styled-components';
 import { useState } from 'react';
+import { Link as OriginalLink } from 'react-router-dom';
 /** import component */
 import Header from '../visit/Header';
 /** import Color */
@@ -79,6 +80,10 @@ const IconContainer = styled.div`
   display: flex;
   margin-right: 10px;
 `;
+const Link = styled(OriginalLink)`
+  text-decoration: none;
+  color: ${AdminColor.Black};
+`;
 
 function SignInForm() {
   const [eye, setEye] = useState(true);
@@ -106,7 +111,9 @@ function SignInForm() {
         </InputContainer>
         <ButtonContainer>
           <Button>Sign In</Button>
-          <Button>Sign Up</Button>
+          <Link to="/up">
+            <Button>Sign Up</Button>
+          </Link>
         </ButtonContainer>
       </SignInContainer>
     </Container>
