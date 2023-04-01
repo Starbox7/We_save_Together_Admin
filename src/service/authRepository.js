@@ -2,12 +2,18 @@ import { create } from 'zustand';
 import axios from 'axios';
 
 const AuthRepository = create((set) => ({
+
+  isLoading: false,
   confirmAdmin: async (confirmData) => {
+    set(() => ({ isLoading: true }));
     try {
       await axios.post(`http://127.0.0.1:5001/auth/confirm`, confirmData);
+      window.location.replace('/');
     } catch (err) {
       console.log(err);
+      alert('승인된 어드민 정보가 아닙니다.');
     } finally {
+      set(() => ({ isLoading: false }));
     }
   },
 

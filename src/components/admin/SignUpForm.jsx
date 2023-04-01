@@ -1,7 +1,8 @@
 /** import library */
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link as OriginalLink } from 'react-router-dom';
+import Loading from 'react-loading';
 /** import component */
 import Header from '../visit/Header';
 /** import Color */
@@ -84,46 +85,60 @@ const Link = styled(OriginalLink)`
 `;
 
 function SignUpForm() {
-  const { confirmAdmin } = AuthRepository();
-  const [confirmData, setConfirmData] = [
+  const { confirmAdmin, isLoading } = AuthRepository();
+  const [confirmData, setConfirmData] = useState(
     {
       name: '',
       hakbun: '',
       email: '',
       phone: '',
-    },
-  ];
+    })
+
+  const onChange = (e) => setConfirmData({
+    ...confirmData,
+    [e.target.id]: e.target.value
+  })
+
+  useEffect(() => console.log(confirmData), [confirmData]);
 
   return (
     <Container>
-      <Header />
-      <SignInContainer>
-        <ImageContainer>
-          <TeamImage />
-        </ImageContainer>
-        <InputContainer>
-          <Text>Name</Text>
-          <Input placeholder="이름을 입력하세요" onChange={(e) => setConfirmData.name(e.target.value)} />
-        </InputContainer>
-        <InputContainer>
-          <Text>Hakbun</Text>
-          <Input placeholder="학번을 입력하세요" onChange={(e) => setConfirmData.hakbun(e.target.value)} />
-        </InputContainer>
-        <InputContainer>
-          <Text>Email</Text>
-          <Input placeholder="이메일을 입력하세요" onChange={(e) => setConfirmData.email(e.target.value)} />
-        </InputContainer>
-        <InputContainer>
-          <Text>Phone</Text>
-          <Input placeholder="휴대폰 번호를 입력하세요" onChange={(e) => setConfirmData.phone(e.target.value)} />
-        </InputContainer>
-        <ButtonContainer>
-          <Link to="/in">
-            <Button>Sign In</Button>
-          </Link>
-          <Button>Next</Button>
-        </ButtonContainer>
-      </SignInContainer>
+      {isLoading ? (
+        <Loading type="spin" color="#fff" height={20} width={20} />
+      ) : (
+        <>
+          <Header />
+          <SignInContainer>
+            <ImageContainer>
+              <TeamImage />
+            </ImageContainer>
+            <InputContainer>
+              <Text>Name</Text>
+              <Input id='name' placeholder="이름을 입력하세요" onChange={(e) => onChange(e)} />
+            </InputContainer>
+            <InputContainer>
+              <Text>Hakbun</Text>
+              <Input id='hakbun' placeholder="학번을 입력하세요" onChange={(e) => onChange(e)} />
+            </InputContainer>
+            <InputContainer>
+              <Text>Email</Text>
+              <Input id='email' placeholder="이메일을 입력하세요" onChange={(e) => onChange(e)} />
+            </InputContainer>
+            <InputContainer>
+              <Text>Phone</Text>
+              <Input id='phone' placeholder="휴대폰 번호를 입력하세요" onChange={(e) => onChange(e)} />
+            </InputContainer>
+            <ButtonContainer>
+              <Link to="/in">
+                <Button>Sign In</Button>
+              </Link>
+              <Button style={{ cursor: "pointer" }} onClick={() => confirmAdmin(confirmData)} >Next</Button>
+            </ButtonContainer>
+          </SignInContainer>
+
+        </>
+      )
+      }
     </Container>
   );
 }
