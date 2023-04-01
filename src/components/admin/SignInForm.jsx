@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Link as OriginalLink } from 'react-router-dom';
+import ReCAPTCHA from "react-google-recaptcha";
 /** import component */
 import Header from '../visit/Header';
 /** import Color */
@@ -88,6 +89,17 @@ const Link = styled(OriginalLink)`
 function SignInForm() {
   const [eye, setEye] = useState(true);
   const [inputType, setInputType] = useState('password');
+  const [recaptchaValue, setRecaptchaValue] = useState(null);
+  const onSubmit = () => {
+    if (recaptchaValue) {
+      // 인증이 완료되었을 때의 로직 처리
+    } else {
+      // 인증이 실패하거나 완료되지 않았을 때의 로직 처리
+    }
+  };
+  const onRecaptchaChange = (value) => {
+    setRecaptchaValue(value);
+  };
   const State = () => {
     setInputType(inputType === 'password' ? 'text' : 'password');
     setEye(eye === true ? false : true);
@@ -102,11 +114,11 @@ function SignInForm() {
         </ImageContainer>
         <InputContainer>
           <Text>ID</Text>
-          <Input />
+          <Input placeholder="아이디를 입력하세요" />
         </InputContainer>
         <InputContainer>
           <Text>PW</Text>
-          <Input type={inputType} />
+          <Input type={inputType} placeholder="비밀번호를 입력하세요" />
           <IconContainer>{eye ? <AiFillEyeInvisible size={20} onClick={() => State()} /> : <AiFillEye size={20} onClick={() => State()} />}</IconContainer>
         </InputContainer>
         <ButtonContainer>
@@ -115,6 +127,11 @@ function SignInForm() {
             <Button>Sign Up</Button>
           </Link>
         </ButtonContainer>
+        <ReCAPTCHA
+          style={{ marginTop: "30px" }}
+          sitekey="Merong kk"
+          onChange={onRecaptchaChange}
+        />
       </SignInContainer>
     </Container>
   );
