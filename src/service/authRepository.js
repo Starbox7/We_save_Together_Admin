@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { create } from 'zustand';
 
+const instance = axios.create({
+  baseURL: 'http://127.0.0.1:5001/auth',
+  withCredentials: true,
+});
+
 const AuthRepository = create((set) => ({
   isLoading: false,
 
@@ -22,8 +27,12 @@ const AuthRepository = create((set) => ({
         phone: signUpData.phone,
       }));
 
-      await axios.get(`http://127.0.0.1:5001/auth/sms/${signUpData.phone}`, {
-        withCredentials: true,
+      await instance.get(`/sms/${signUpData.phone}`, {
+        // withCredentials: true,
+        // headers: {
+        //   'Content-Type': 'application/json',
+        //   'Access-Control-Allow-Origin': 'http://localhost:3000',
+        // },
       });
       alert(`${signUpData.phone} : 인증번호가 발송되었습니다.`);
       window.location.replace('/auth');
@@ -38,11 +47,15 @@ const AuthRepository = create((set) => ({
   isAuth: false,
   confirmAuthNumber: async (authNum) => {
     try {
-      const res = await axios.get(`http://127.0.0.1:5001/auth/certificate/${authNum}`, {
-        withCredentials: true,
+      const res = await instance.get(`/certificate/${authNum}`, {
+        // withCredentials: true,
+        // headers: {
+        //   'Content-Type': 'application/json',
+        //   'Access-Control-Allow-Origin': 'http://localhost:3000',
+        // },
       });
 
-      switch (res.status) {
+      switch (res.data.status) {
         case 200:
           set(() => ({ isAuth: true }));
           alert('인증되었습니다');
