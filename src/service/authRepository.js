@@ -1,22 +1,76 @@
-import { create } from 'zustand';
 import axios from 'axios';
+import { create } from 'zustand';
 
 const AuthRepository = create((set) => ({
-
   isLoading: false,
-  confirmAdmin: async (confirmData) => {
+
+  name: '',
+  hakbun: '',
+  email: '',
+  phone: '',
+
+  setSignUpData: async (signUpData) => {
     set(() => ({ isLoading: true }));
     try {
-      await axios.post(`http://127.0.0.1:5001/auth/confirm`, confirmData);
-      window.location.replace('/');
+      if (!signUpData.name || !signUpData.hakbun || !signUpData.email || !signUpData.phone) {
+        throw new Error('입력 양식을 충족하지 못합니다.');
+      }
+      set(() => ({
+        name: signUpData.name,
+        hakbun: signUpData.hakbun,
+        email: signUpData.email,
+        phone: signUpData.phone,
+      }));
+
+      await axios.get(`http://127.0.0.1:5001/auth/sms/${signUpData.phone}`, {
+        withCredentials: true,
+      });
+      alert(`${signUpData.phone} : 인증번호가 발송되었습니다.`);
+      window.location.replace('/auth');
     } catch (err) {
       console.log(err);
-      alert('승인된 어드민 정보가 아닙니다.');
+      alert(err);
     } finally {
       set(() => ({ isLoading: false }));
     }
   },
 
+  isAuth: false,
+  confirmAuthNumber: async (authNum) => {
+    try {
+      const res = await axios.get(`http://127.0.0.1:5001/auth/certificate/${authNum}`, {
+        withCredentials: true,
+      });
+
+      switch (res.status) {
+        case 200:
+          set(() => ({ isAuth: true }));
+          alert('인증되었습니다');
+          break;
+        case 404:
+          set(() => ({ isAuth: false }));
+          alert('인증번호가 만료되었습니다.');
+          window.location.replace('/info');
+          break;
+        default:
+          set(() => ({ isAuth: false }));
+          alert(`인증번호가 일치하지 않습니다`);
+          window.location.replace('/info');
+          break;
+      }
+    } catch (err) {
+      set(() => ({ isAuth: false }));
+      alert(`인증번호가 일치하지 않습니다`);
+      window.location.replace('/info');
+    }
+  },
+
+  // isAuth: false,
+  // checkAuthNumber: (authNumber, authNum) => {
+  //   set(() => ({
+  //     isAuth: compare(authNumber, authNum),
+  //   }));
+  // },
   //   isAuth: false,
 
   //   sms: async (phone) => {

@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Link as OriginalLink } from 'react-router-dom';
-import ReCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA from 'react-google-recaptcha';
 /** import component */
 import Header from '../visit/Header';
 /** import Color */
@@ -123,15 +123,11 @@ function SignInForm() {
         </InputContainer>
         <ButtonContainer>
           <Button>Sign In</Button>
-          <Link to="/up">
+          <Link to="/info">
             <Button>Sign Up</Button>
           </Link>
         </ButtonContainer>
-        <ReCAPTCHA
-          style={{ marginTop: "30px" }}
-          sitekey="Merong kk"
-          onChange={onRecaptchaChange}
-        />
+        <ReCAPTCHA style={{ marginTop: '30px' }} sitekey="Merong kk" onChange={onRecaptchaChange} />
       </SignInContainer>
     </Container>
   );
