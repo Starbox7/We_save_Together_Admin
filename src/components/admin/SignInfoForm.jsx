@@ -93,18 +93,11 @@ function SignInfoForm() {
     phone: '',
   });
 
-  useEffect(() => {
-    console.log(`sign-info-form`);
-    console.log(user);
-    console.log(number);
-  }, [user, number])
-
   const onChange = (e) => {
     setInfo({
       ...info,
       [e.target.id]: e.target.value,
-    }
-    )
+    });
   };
 
   return (
