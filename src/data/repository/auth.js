@@ -1,8 +1,11 @@
-import { create } from 'zustand';
+const auth = {
+  signUp: async () => {
+    /** Test!!! */ return console.log(`here is auth Repository`);
+  },
+};
 
-const AuthRepository = create((set) => ({}));
-
-export default AuthRepository;
+export default auth;
+//              /** Test!!! */ console.log(`${}`);
 
 // import axios from 'axios';
 // import { create } from 'zustand';
@@ -150,3 +153,24 @@ export default AuthRepository;
 // }));
 
 // export default AuthRepository;
+
+//  <InputContainer>
+//    <Text>Auth</Text>
+//    <Input id="auth" disabled={true} placeholder="인증번호 서비스 준비 중" onChange={(e) => onChange(e)} />
+//    <IconContainer>{/*isAuth*/ false ? <></> : <IoIosCheckbox size={30} color={IconColor.icYellow} onClick={() => {}} />}</IconContainer>
+//  </InputContainer>;
+
+// const checkUpdate = get().signUpData;
+// /** Test!!! */ console.log(`check : ${checkUpdate.id}`);
+// /** Test!!! */ console.log(`check : ${checkUpdate.password}`);
+// /** Test!!! */ console.log(`check : ${checkUpdate.confirm}`);
+// /** Test!!! */ console.log(`check : ${checkUpdate.name}`);
+// /** Test!!! */ console.log(`check : ${checkUpdate.hakbun}`);
+// /** Test!!! */ console.log(`check : ${checkUpdate.email}`);
+
+/** need fix */
+//   getSignData: () => {
+//     const signUpData = get().signUpData;
+//     /** Test!!! */ console.log(`store signUpData : ${signUpData}`);
+//     return signUpData;
+//   },
