@@ -85,19 +85,27 @@ const Link = styled(OriginalLink)`
 `;
 
 function SignInfoForm() {
-  const { setSignUpData, isLoading } = AuthRepository();
-  const [signUpData, setsignUpData] = useState({
+  const { setSignUpData, isLoading, user, number } = AuthRepository();
+  const [info, setInfo] = useState({
     name: '',
     hakbun: '',
     email: '',
     phone: '',
   });
 
-  const onChange = (e) =>
-    setsignUpData({
-      ...signUpData,
+  useEffect(() => {
+    console.log(`sign-info-form`);
+    console.log(user);
+    console.log(number);
+  }, [user, number])
+
+  const onChange = (e) => {
+    setInfo({
+      ...info,
       [e.target.id]: e.target.value,
-    });
+    }
+    )
+  };
 
   return (
     <Container>
@@ -133,7 +141,7 @@ function SignInfoForm() {
               <Button
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
-                  setSignUpData(signUpData);
+                  setSignUpData(info);
                 }}
               >
                 Next

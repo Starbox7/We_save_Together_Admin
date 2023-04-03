@@ -11,10 +11,6 @@ import { AdminColor, BorderColor, DetailBackgroundColor } from '../../asset/Colo
 import TeamImage from '../visit/TeamImage';
 /** import Repository */
 import AuthRepository from '../../service/authRepository';
-/** */
-import { IoIosCheckbox } from 'react-icons/io';
-/** */
-import { IconColor } from '../../asset/Colors';
 
 /** styled-component */
 const Container = styled.div`
@@ -87,36 +83,24 @@ const Link = styled(OriginalLink)`
   text-decoration: none;
   color: ${AdminColor.Black};
 `;
-const IconContainer = styled.div`
-  margin: 15px;
-  margin-top: 15px;
-`;
 
-function SignAuthForm() {
-  const { isLoading, isAuth, confirmAuthNumber, signUp, user, number } = AuthRepository();
-  const { name, hakbun, email, phone } = user;
-  const [confirmData, setConfirmData] = useState({
-    auth: '',
-    id: '',
-    password: '',
-    confirm: '',
-  });
+function SignUpForm() {
+  const { confirmAdmin, isLoading } = AuthRepository();
+  const [confirmData, setConfirmData] = useState(
+    {
+      name: '',
+      hakbun: '',
+      email: '',
+      phone: '',
+    })
 
-  const onChange = (e) =>
-    setConfirmData({
-      ...confirmData,
-      [e.target.id]: e.target.value,
-    });
-  const onClick = () => {
-    confirmAuthNumber(confirmData.auth);
-  };
+  const onChange = (e) => setConfirmData({
+    ...confirmData,
+    [e.target.id]: e.target.value
+  })
 
-  useEffect(() => {
-    console.log('sign-auth-form start useEffect')
-    console.log(user);
-    console.log(number);
-  }, [user, number])
-
+  useEffect(() => console.log(confirmData), [confirmData]);
+  ~
   return (
     <Container>
       {isLoading ? (
@@ -129,35 +113,34 @@ function SignAuthForm() {
               <TeamImage />
             </ImageContainer>
             <InputContainer>
-              <Text>Auth</Text>
-              <Input id="auth" disabled={true} placeholder="인증번호 서비스 준비 중" onChange={(e) => onChange(e)} />
-              <IconContainer>{isAuth ? <></> : <IoIosCheckbox size={30} color={IconColor.icYellow} onClick={() => onClick()} />}</IconContainer>
+              <Text>Name</Text>
+              <Input id='name' placeholder="이름을 입력하세요" onChange={(e) => onChange(e)} />
             </InputContainer>
             <InputContainer>
-              <Text>ID</Text>
-              <Input id="id" /* disabled={true} */ placeholder="아이디를 입력하세요" onChange={(e) => onChange(e)} />
+              <Text>Hakbun</Text>
+              <Input id='hakbun' placeholder="학번을 입력하세요" onChange={(e) => onChange(e)} />
             </InputContainer>
             <InputContainer>
-              <Text>PW</Text>
-              <Input id="password" /* disabled={true} */ type='password' placeholder="비밀번호를 입력하세요" onChange={(e) => onChange(e)} />
+              <Text>Email</Text>
+              <Input id='email' placeholder="이메일을 입력하세요" onChange={(e) => onChange(e)} />
             </InputContainer>
             <InputContainer>
-              <Text>Confirm</Text>
-              <Input id="confirm" /* disabled={true} */ type='password' placeholder="비밀번호 재확인" onChange={(e) => onChange(e)} />
+              <Text>Phone</Text>
+              <Input id='phone' placeholder="휴대폰 번호를 입력하세요" onChange={(e) => onChange(e)} />
             </InputContainer>
             <ButtonContainer>
-              <Link to="/info">
-                <Button>Prev</Button>
+              <Link to="/in">
+                <Button>Sign In</Button>
               </Link>
-              <Button style={{ cursor: 'pointer' }} onClick={() => signUp({ id: confirmData.id, password: confirmData.password, name: name, hakbun: hakbun, email: email, phone: phone })}>
-                Sign Up
-              </Button>
+              <Button style={{ cursor: "pointer" }} onClick={() => confirmAdmin(confirmData)} >Next</Button>
             </ButtonContainer>
           </SignInContainer>
+
         </>
-      )}
+      )
+      }
     </Container>
   );
 }
 
-export default SignAuthForm;
+export default SignUpForm;
