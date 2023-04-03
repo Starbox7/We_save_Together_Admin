@@ -1,6 +1,6 @@
 /** import library */
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link as OriginalLink } from 'react-router-dom';
 import Loading from 'react-loading';
 /** import component */
@@ -9,8 +9,10 @@ import Header from '../visit/Header';
 import { AdminColor, BorderColor, DetailBackgroundColor } from '../../asset/Colors';
 /** import asset */
 import TeamImage from '../visit/TeamImage';
-/** import Repository */
-import AuthRepository from '../../service/authRepository';
+/** */
+import authStore from '../../store/authStore';
+/** import Icon */
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
 /** styled-component */
 const Container = styled.div`
@@ -83,64 +85,71 @@ const Link = styled(OriginalLink)`
   text-decoration: none;
   color: ${AdminColor.Black};
 `;
+const IconContainer = styled.div`
+  margin: 15px;
+  margin-top: 15px;
+`;
 
 function SignUpForm() {
-  const { confirmAdmin, isLoading } = AuthRepository();
-  const [confirmData, setConfirmData] = useState(
-    {
-      name: '',
-      hakbun: '',
-      email: '',
-      phone: '',
-    })
+  const setSignData = authStore((state) => state.setSignData);
+  const verifySignData_2 = authStore((state) => state.verifySignData_2);
+  const onChange = (e) => {
+    setSignData(e.target.id, e.target.value);
+  };
 
-  const onChange = (e) => setConfirmData({
-    ...confirmData,
-    [e.target.id]: e.target.value
-  })
+  const [eye, setEye] = useState(true);
+  const [inputType, setInputType] = useState('password');
+  const State = () => {
+    setInputType(inputType === 'password' ? 'text' : 'password');
+    setEye(eye === true ? false : true);
+  };
 
-  useEffect(() => console.log(confirmData), [confirmData]);
-  ~
   return (
     <Container>
-      {isLoading ? (
-        <Loading type="spin" color="#fff" height={20} width={20} />
-      ) : (
-        <>
-          <Header />
-          <SignInContainer>
-            <ImageContainer>
-              <TeamImage />
-            </ImageContainer>
-            <InputContainer>
-              <Text>Name</Text>
-              <Input id='name' placeholder="이름을 입력하세요" onChange={(e) => onChange(e)} />
-            </InputContainer>
-            <InputContainer>
-              <Text>Hakbun</Text>
-              <Input id='hakbun' placeholder="학번을 입력하세요" onChange={(e) => onChange(e)} />
-            </InputContainer>
-            <InputContainer>
-              <Text>Email</Text>
-              <Input id='email' placeholder="이메일을 입력하세요" onChange={(e) => onChange(e)} />
-            </InputContainer>
-            <InputContainer>
-              <Text>Phone</Text>
-              <Input id='phone' placeholder="휴대폰 번호를 입력하세요" onChange={(e) => onChange(e)} />
-            </InputContainer>
-            <ButtonContainer>
-              <Link to="/in">
-                <Button>Sign In</Button>
-              </Link>
-              <Button style={{ cursor: "pointer" }} onClick={() => confirmAdmin(confirmData)} >Next</Button>
-            </ButtonContainer>
-          </SignInContainer>
-
-        </>
-      )
+      {
+        /*isLoading*/ false ? (
+          <Loading type="spin" color="#fff" height={20} width={20} />
+        ) : (
+          <>
+            <Header />
+            <SignInContainer>
+              <ImageContainer>
+                <TeamImage />
+              </ImageContainer>
+              <InputContainer>
+                <Text>ID</Text>
+                <Input id="id" placeholder="아이디를 입력하세요" onChange={(e) => onChange(e)} />
+              </InputContainer>
+              <InputContainer>
+                <Text>PW</Text>
+                <Input id="password" type={inputType} placeholder="비밀번호를 입력하세요" onChange={(e) => onChange(e)} />
+                <IconContainer>{eye ? <AiFillEyeInvisible size={20} onClick={() => State()} /> : <AiFillEye size={20} onClick={() => State()} />}</IconContainer>
+              </InputContainer>
+              <InputContainer>
+                <Text>Confirm</Text>
+                <Input id="confirm" type={inputType} placeholder="비밀번호 재확인" onChange={(e) => onChange(e)} />
+                <IconContainer>{eye ? <AiFillEyeInvisible size={20} onClick={() => State()} /> : <AiFillEye size={20} onClick={() => State()} />}</IconContainer>
+              </InputContainer>
+              <ButtonContainer>
+                <Link to="/info">
+                  <Button>Prev</Button>
+                </Link>
+                <Button
+                  style={{ cursor: 'pointer' }}
+                  onClick={async () => {
+                    await verifySignData_2();
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </ButtonContainer>
+            </SignInContainer>
+          </>
+        )
       }
     </Container>
   );
 }
 
 export default SignUpForm;
+//              /** Test!!! */ console.log(`${}`);

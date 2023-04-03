@@ -127,7 +127,7 @@ function SignInForm() {
             <Button>Sign Up</Button>
           </Link>
         </ButtonContainer>
-        <ReCAPTCHA style={{ marginTop: '30px' }} sitekey="Merong kk" onChange={onRecaptchaChange} />
+        <ReCAPTCHA style={{ marginTop: '30px' }} sitekey="Merong-kk" onChange={onRecaptchaChange} />
       </SignInContainer>
     </Container>
   );

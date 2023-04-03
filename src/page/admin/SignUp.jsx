@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 /** import component */
 import Footer from '../../components/visit/Footer';
-import SignAuthForm from '../../components/admin/SignAuthForm';
+import SignUpForm from '../../components/admin/SignUpForm';
 /** import Color */
 import { AdminColor } from '../../asset/Colors';
 
@@ -12,13 +12,13 @@ const Container = styled.div`
   background-color: ${AdminColor.Orange};
 `;
 
-function SignAuth() {
+function SignUp() {
   return (
     <Container>
-      <SignAuthForm />
+      <SignUpForm />
       <Footer />
     </Container>
   );
 }
 
-export default SignAuth;
+export default SignUp;

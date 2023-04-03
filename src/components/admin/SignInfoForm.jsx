@@ -1,6 +1,5 @@
 /** import library */
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
 import { Link as OriginalLink } from 'react-router-dom';
 import Loading from 'react-loading';
 /** import component */
@@ -9,8 +8,10 @@ import Header from '../visit/Header';
 import { AdminColor, BorderColor, DetailBackgroundColor } from '../../asset/Colors';
 /** import asset */
 import TeamImage from '../visit/TeamImage';
-/** import Repository */
-import AuthRepository from '../../service/authRepository';
+/** */
+import authStore from '../../store/authStore';
+/** */
+import { useNavigate } from 'react-router-dom';
 
 /** styled-component */
 const Container = styled.div`
@@ -85,66 +86,61 @@ const Link = styled(OriginalLink)`
 `;
 
 function SignInfoForm() {
-  const { setSignUpData, isLoading, user, number } = AuthRepository();
-  const [info, setInfo] = useState({
-    name: '',
-    hakbun: '',
-    email: '',
-    phone: '',
-  });
+  const navigate = useNavigate();
+  const navigateToUp = () => {
+    navigate('/up');
+  };
 
+  const setSignData = authStore((state) => state.setSignData);
+  const verifySignData_1 = authStore((state) => state.verifySignData_1);
   const onChange = (e) => {
-    setInfo({
-      ...info,
-      [e.target.id]: e.target.value,
-    });
+    setSignData(e.target.id, e.target.value);
   };
 
   return (
     <Container>
-      {isLoading ? (
-        <Loading type="spin" color="#fff" height={20} width={20} />
-      ) : (
-        <>
-          <Header />
-          <SignInContainer>
-            <ImageContainer>
-              <TeamImage />
-            </ImageContainer>
-            <InputContainer>
-              <Text>Name</Text>
-              <Input id="name" placeholder="이름을 입력하세요" onChange={(e) => onChange(e)} />
-            </InputContainer>
-            <InputContainer>
-              <Text>Hakbun</Text>
-              <Input id="hakbun" placeholder="학번을 입력하세요" onChange={(e) => onChange(e)} />
-            </InputContainer>
-            <InputContainer>
-              <Text>Email</Text>
-              <Input id="email" placeholder="이메일을 입력하세요" onChange={(e) => onChange(e)} />
-            </InputContainer>
-            <InputContainer>
-              <Text>Phone</Text>
-              <Input id="phone" placeholder="휴대폰 번호를 입력하세요" onChange={(e) => onChange(e)} />
-            </InputContainer>
-            <ButtonContainer>
-              <Link to="/in">
-                <Button>Sign In</Button>
-              </Link>
-              <Button
-                style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  setSignUpData(info);
-                }}
-              >
-                Next
-              </Button>
-            </ButtonContainer>
-          </SignInContainer>
-        </>
-      )}
+      {
+        /*isLoading*/ false ? (
+          <Loading type="spin" color="#fff" height={20} width={20} />
+        ) : (
+          <>
+            <Header />
+            <SignInContainer>
+              <ImageContainer>
+                <TeamImage />
+              </ImageContainer>
+              <InputContainer>
+                <Text>Name</Text>
+                <Input id="name" placeholder="이름을 입력하세요" onChange={(e) => onChange(e)} />
+              </InputContainer>
+              <InputContainer>
+                <Text>Hakbun</Text>
+                <Input id="hakbun" placeholder="학번을 입력하세요" onChange={(e) => onChange(e)} />
+              </InputContainer>
+              <InputContainer>
+                <Text>Email</Text>
+                <Input id="email" placeholder="이메일을 입력하세요" onChange={(e) => onChange(e)} />
+              </InputContainer>
+              <ButtonContainer>
+                <Link to="/in">
+                  <Button>Sign In</Button>
+                </Link>
+                <Button
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    verifySignData_1(navigateToUp);
+                  }}
+                >
+                  Next
+                </Button>
+              </ButtonContainer>
+            </SignInContainer>
+          </>
+        )
+      }
     </Container>
   );
 }
 
 export default SignInfoForm;
+//              /** Test!!! */ console.log(`${}`);
