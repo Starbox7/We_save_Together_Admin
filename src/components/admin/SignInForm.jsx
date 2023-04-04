@@ -11,6 +11,8 @@ import { AdminColor, BorderColor, DetailBackgroundColor } from '../../asset/Colo
 import TeamImage from '../visit/TeamImage';
 /** import Icon */
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
+/** */
+import authStore from '../../store/authStore';
 
 /** styled-component */
 const Container = styled.div`
@@ -90,13 +92,13 @@ function SignInForm() {
   const [eye, setEye] = useState(true);
   const [inputType, setInputType] = useState('password');
   const [recaptchaValue, setRecaptchaValue] = useState(null);
-  const onSubmit = () => {
-    if (recaptchaValue) {
-      // 인증이 완료되었을 때의 로직 처리
-    } else {
-      // 인증이 실패하거나 완료되지 않았을 때의 로직 처리
-    }
+  const setSignData = authStore((state) => state.setSignData);
+  const verifySignData_3 = authStore((state) => state.verifySignData_3);
+  const isLoading = authStore((state) => state.isLoading);
+  const onChange = (e) => {
+    setSignData(e.target.id, e.target.value);
   };
+
   const onRecaptchaChange = (value) => {
     setRecaptchaValue(value);
   };
@@ -114,11 +116,11 @@ function SignInForm() {
         </ImageContainer>
         <InputContainer>
           <Text>ID</Text>
-          <Input placeholder="아이디를 입력하세요" />
+          <Input id="id" placeholder="아이디를 입력하세요" onChange={(e) => onChange(e)} />
         </InputContainer>
         <InputContainer>
           <Text>PW</Text>
-          <Input type={inputType} placeholder="비밀번호를 입력하세요" />
+          <Input id="password" type={inputType} placeholder="비밀번호를 입력하세요" onChange={(e) => onChange(e)} />
           <IconContainer>{eye ? <AiFillEyeInvisible size={20} onClick={() => State()} /> : <AiFillEye size={20} onClick={() => State()} />}</IconContainer>
         </InputContainer>
         <ButtonContainer>
