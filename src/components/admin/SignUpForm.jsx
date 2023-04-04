@@ -93,6 +93,7 @@ const IconContainer = styled.div`
 function SignUpForm() {
   const setSignData = authStore((state) => state.setSignData);
   const verifySignData_2 = authStore((state) => state.verifySignData_2);
+  const isLoading = authStore((state) => state.isLoading);
   const onChange = (e) => {
     setSignData(e.target.id, e.target.value);
   };
@@ -107,7 +108,7 @@ function SignUpForm() {
   return (
     <Container>
       {
-        /*isLoading*/ false ? (
+        isLoading ? (
           <Loading type="spin" color="#fff" height={20} width={20} />
         ) : (
           <>
