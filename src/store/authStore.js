@@ -10,6 +10,7 @@ const authStore = create((set, get) => ({
     hakbun: '',
     email: '',
   },
+  isLoading: false,
 
   setSignData: (targetId, targetValue) => {
     const signUpData = get().signUpData;
@@ -31,7 +32,7 @@ const authStore = create((set, get) => ({
       return alert('이름을 입력해주세요 :D');
     }
     if (!nameRegex.test(signUpData.name)) {
-      return '정확한 이름 형식을 사용해주세요 :D';
+      return alert('정확한 이름 형식을 사용해주세요 :D');
     }
     if (!signUpData.hakbun) {
       return alert('학생 번호를 입력해주세요 :D');
@@ -73,11 +74,27 @@ const authStore = create((set, get) => ({
     if (signUpData.password !== signUpData.confirm) {
       return alert('비밀번호 재확인이 일치하지 않습니다 :(');
     }
+    const newSignUpData = {
+      id: signUpData.id,
+      password: signUpData.password,
+      name: signUpData.name,
+      hakbun: signUpData.hakbun,
+      email: signUpData.email
+    }
+    set({
+      isLoading: true
+    })
     try {
-      /** Test!!! */ console.log(`start axios`);
-      await auth.signUp();
-      return null;
-    } catch (err) {}
+      await auth.signUp(newSignUpData);
+      window.location.replace('/in');
+      return alert('회원가입 성공!')
+    } catch (err) {
+      /** Test!!! */ console.log(`verifySignData_2 : ${err}`);
+      set({
+        isLoading: false
+      })
+      return alert('axios Error : signup')
+    }
   },
 }));
 
