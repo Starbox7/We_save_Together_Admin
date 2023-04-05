@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import auth from '../data/repository/auth';
 
 const authStore = create((set, get) => ({
+  signState: false,
   signData: {
     id: '',
     password: '',
@@ -9,6 +10,7 @@ const authStore = create((set, get) => ({
     name: '',
     hakbun: '',
     email: '',
+    phone: ''
   },
   isLoading: false,
 
@@ -22,7 +24,7 @@ const authStore = create((set, get) => ({
     });
   },
 
-  verifySignData_1: (navigateToUp) => {
+  verifySignData: (navigateToUp) => {
     const signData = get().signData;
     const nameRegex = /^[가-힣]{2,5}$/;
     const hakbunRegex = /^\d{8}$/;
@@ -51,7 +53,7 @@ const authStore = create((set, get) => ({
   },
 
   /** sign up */
-  verifySignData_2: async () => {
+  signUp: async () => {
     const signData = get().signData;
     const idRegex = /^[A-Za-z0-9]{5,}$/;
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{10,}$/;
@@ -90,7 +92,7 @@ const authStore = create((set, get) => ({
       window.location.replace('/in');
       return alert('회원가입 성공!');
     } catch (err) {
-      /** Test!!! */ console.log(`verifySignData_2 : ${err}`);
+      /** Test!!! */ console.log(`signUp : ${err}`);
       set({
         isLoading: false,
       });
@@ -99,7 +101,7 @@ const authStore = create((set, get) => ({
     }
   },
   /** sign in */
-  verifySignData_3: async () => {
+  signIn: async () => {
     const signData = get().signData;
 
     if (!signData.id) {
@@ -109,7 +111,6 @@ const authStore = create((set, get) => ({
       return alert('비밀번호를 입력해주세요 :D');
     }
     const newSignData = {
-      ...signData,
       id: signData.id,
       password: signData.password,
     };
@@ -117,11 +118,14 @@ const authStore = create((set, get) => ({
       isLoading: true,
     });
     try {
-      // await auth.signUp(newSignData);
+      const res = await auth.signIn(newSignData);
+      /** Test!!! */ console.log(`signIn : ${res.data.accessToken}`);
+
+
       window.location.replace('/');
       return alert('로그인 성공!');
     } catch (err) {
-      /** Test!!! */ console.log(`verifySignData_3 : ${err}`);
+      /** Test!!! */ console.log(`signIn : ${err}`);
       set({
         isLoading: false,
       });

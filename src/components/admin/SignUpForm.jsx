@@ -92,7 +92,7 @@ const IconContainer = styled.div`
 
 function SignUpForm() {
   const setSignData = authStore((state) => state.setSignData);
-  const verifySignData_2 = authStore((state) => state.verifySignData_2);
+  const signUp = authStore((state) => state.signUp);
   const isLoading = authStore((state) => state.isLoading);
   const onChange = (e) => {
     setSignData(e.target.id, e.target.value);
@@ -138,7 +138,7 @@ function SignUpForm() {
                 <Button
                   style={{ cursor: 'pointer' }}
                   onClick={async () => {
-                    await verifySignData_2();
+                    await signUp();
                   }}
                 >
                   Sign Up

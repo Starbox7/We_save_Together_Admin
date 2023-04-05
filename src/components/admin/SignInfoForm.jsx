@@ -92,7 +92,7 @@ function SignInfoForm() {
   };
 
   const setSignData = authStore((state) => state.setSignData);
-  const verifySignData_1 = authStore((state) => state.verifySignData_1);
+  const verifySignData = authStore((state) => state.verifySignData);
   const onChange = (e) => {
     setSignData(e.target.id, e.target.value);
   };
@@ -128,7 +128,7 @@ function SignInfoForm() {
                 <Button
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
-                    verifySignData_1(navigateToUp);
+                    verifySignData(navigateToUp);
                   }}
                 >
                   Next
