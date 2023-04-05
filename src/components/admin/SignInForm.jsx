@@ -89,16 +89,18 @@ const Link = styled(OriginalLink)`
 `;
 
 function SignInForm() {
+  /** */
   const [eye, setEye] = useState(true);
   const [inputType, setInputType] = useState('password');
   const [recaptchaValue, setRecaptchaValue] = useState(null);
+  /** */
   const setSignData = authStore((state) => state.setSignData);
-  const verifySignData_3 = authStore((state) => state.verifySignData_3);
+  const signIn = authStore((state) => state.signIn);
   const isLoading = authStore((state) => state.isLoading);
+  /** */
   const onChange = (e) => {
     setSignData(e.target.id, e.target.value);
   };
-
   const onRecaptchaChange = (value) => {
     setRecaptchaValue(value);
   };
@@ -123,7 +125,11 @@ function SignInForm() {
           <Input id="password" type={inputType} placeholder="비밀번호를 입력하세요" onChange={(e) => onChange(e)} />
           <IconContainer>{eye ? <AiFillEyeInvisible size={20} onClick={() => State()} /> : <AiFillEye size={20} onClick={() => State()} />}</IconContainer>
         </InputContainer>
-        <ButtonContainer>
+        <ButtonContainer
+          style={{ cursor: 'pointer' }}
+          onClick={async () => {
+            await signIn();
+          }}>
           <Button>Sign In</Button>
           <Link to="/info">
             <Button>Sign Up</Button>
