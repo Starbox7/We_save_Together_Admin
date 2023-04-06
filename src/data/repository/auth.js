@@ -16,6 +16,14 @@ const auth = {
     } catch (err) {
       throw new Error('axios Error : signIn');
     }
+  },
+  autoSign: async (refreshToken) => {
+    try {
+      return await axios.get('http://127.0.0.1:5001/auth/signin', { headers: { refreshToken: refreshToken } });
+    } catch (err) {
+      /** Test!!! */ console.log(`autoSign : ${err}`);
+      throw new Error('axios Error : autosign');
+    }
   }
 };
 
