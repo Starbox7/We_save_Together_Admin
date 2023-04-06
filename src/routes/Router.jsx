@@ -16,10 +16,14 @@ import { useState } from 'react';
 /** Route Area */
 function Router() {
   const signState = authStore((state) => state.signState);
+  const autoSign = authStore((state) => state.autoSign);
+
   const [state, setState] = useState(false);
   useEffect(() => {
     if (!signState) {
-
+      (async () => {
+        await autoSign();
+      })()
     } else {
       setState(true)
     }

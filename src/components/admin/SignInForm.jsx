@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { Link as OriginalLink } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
+import Loading from 'react-loading';
 /** import component */
 import Header from '../visit/Header';
 /** import Color */
@@ -13,6 +14,7 @@ import TeamImage from '../visit/TeamImage';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 /** */
 import authStore from '../../store/authStore';
+import { useEffect } from 'react';
 
 /** styled-component */
 const Container = styled.div`
@@ -97,6 +99,7 @@ function SignInForm() {
   const setSignData = authStore((state) => state.setSignData);
   const signIn = authStore((state) => state.signIn);
   const isLoading = authStore((state) => state.isLoading);
+  const signState = authStore((state) => state.signState);
   /** */
   const onChange = (e) => {
     setSignData(e.target.id, e.target.value);
@@ -109,36 +112,52 @@ function SignInForm() {
     setEye(eye === true ? false : true);
   };
 
+  useEffect(() => {
+    /** Test!!! */ console.log(`useEffect : signState : ${signState}`);
+    if (signState) {
+      window.location.replace('/console');
+    }
+  }, [])
+
   return (
     <Container>
-      <Header />
-      <SignInContainer>
-        <ImageContainer>
-          <TeamImage />
-        </ImageContainer>
-        <InputContainer>
-          <Text>ID</Text>
-          <Input id="id" placeholder="아이디를 입력하세요" onChange={(e) => onChange(e)} />
-        </InputContainer>
-        <InputContainer>
-          <Text>PW</Text>
-          <Input id="password" type={inputType} placeholder="비밀번호를 입력하세요" onChange={(e) => onChange(e)} />
-          <IconContainer>{eye ? <AiFillEyeInvisible size={20} onClick={() => State()} /> : <AiFillEye size={20} onClick={() => State()} />}</IconContainer>
-        </InputContainer>
-        <ButtonContainer
-          style={{ cursor: 'pointer' }}
-          onClick={async () => {
-            await signIn();
-          }}>
-          <Button>Sign In</Button>
-          <Link to="/info">
-            <Button>Sign Up</Button>
-          </Link>
-        </ButtonContainer>
-        <ReCAPTCHA style={{ marginTop: '30px' }} sitekey="Merong-kk" onChange={onRecaptchaChange} />
-      </SignInContainer>
+      {
+        isLoading ? (
+          <Loading type="spin" color="#fff" height={20} width={20} />
+        ) : (
+          <>
+            <Header />
+            <SignInContainer>
+              <ImageContainer>
+                <TeamImage />
+              </ImageContainer>
+              <InputContainer>
+                <Text>ID</Text>
+                <Input id="id" placeholder="아이디를 입력하세요" onChange={(e) => onChange(e)} />
+              </InputContainer>
+              <InputContainer>
+                <Text>PW</Text>
+                <Input id="password" type={inputType} placeholder="비밀번호를 입력하세요" onChange={(e) => onChange(e)} />
+                <IconContainer>{eye ? <AiFillEyeInvisible size={20} onClick={() => State()} /> : <AiFillEye size={20} onClick={() => State()} />}</IconContainer>
+              </InputContainer>
+              <ButtonContainer>
+                <Button
+                  style={{ cursor: 'pointer' }}
+                  onClick={async () => {
+                    await signIn();
+                  }}>Sign In</Button>
+                <Link to="/info">
+                  <Button>Sign Up</Button>
+                </Link>
+              </ButtonContainer>
+              <ReCAPTCHA style={{ marginTop: '30px' }} sitekey="Merong-kk" onChange={onRecaptchaChange} />
+            </SignInContainer>
+          </>
+        )
+      }
     </Container>
   );
 }
 
 export default SignInForm;
+//              /** Test!!! */ console.log(`${}`);

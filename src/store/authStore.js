@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import auth from '../data/repository/auth';
+import cookieService from '../data/storage/cookie';
 
 const authStore = create((set, get) => ({
   signState: false,
@@ -102,6 +103,9 @@ const authStore = create((set, get) => ({
   },
   /** sign in */
   signIn: async () => {
+    set({
+      isLoading: true,
+    });
     const signData = get().signData;
 
     if (!signData.id) {
@@ -114,16 +118,31 @@ const authStore = create((set, get) => ({
       id: signData.id,
       password: signData.password,
     };
-    set({
-      isLoading: true,
-    });
     try {
       const res = await auth.signIn(newSignData);
       /** Test!!! */ console.log(`signIn : ${res.data.accessToken}`);
+      const accessToken = res.data.accessToken;
+      const refreshToken = res.data.refreshToken;
+      if (!accessToken) {
+        throw new Error('No Access Token In Axios');
+      }
+      if (!refreshToken) {
+        throw new Error('No Refresh Token In Axios')
+      }
+      cookieService.setTokens(accessToken, refreshToken);
+      const tokenCheck = cookieService.getTokens();
+      if (!tokenCheck.accessToken) {
+        throw new Error('No Access Token In Cookie');
+      }
+      if (!tokenCheck.refreshToken) {
+        throw new Error('No Refresh Token In Cookie')
+      }
 
+      set({
+        signState: true
+      })
 
-      window.location.replace('/');
-      return alert('로그인 성공!');
+      return window.location.replace('/console');
     } catch (err) {
       /** Test!!! */ console.log(`signIn : ${err}`);
       set({
@@ -131,6 +150,43 @@ const authStore = create((set, get) => ({
       });
       window.location.replace('/in');
       return alert('axios Error : signin');
+    }
+  },
+  autoSign: async () => {
+    const token = cookieService.getTokens();
+    try {
+      if (token.refreshToken) {
+        const res = await auth.autoSign(token.refreshToken);
+        const accessToken = res.data.accessToken;
+        const refreshToken = res.data.refreshToken;
+        if (!accessToken) {
+          throw new Error('No Access Token In Axios');
+        }
+        if (!refreshToken) {
+          throw new Error('No Refresh Token In Axios')
+        }
+        cookieService.setTokens(accessToken, refreshToken);
+        const tokenCheck = cookieService.getTokens();
+        if (!tokenCheck.accessToken) {
+          throw new Error('No Access Token In Cookie');
+        }
+        if (!tokenCheck.refreshToken) {
+          throw new Error('No Refresh Token In Cookie')
+        }
+
+        return set({
+          signState: true
+        })
+      }
+      else {
+        return set({
+          isLoading: false,
+        });
+      }
+    } catch (err) {
+      return set({
+        isLoading: false,
+      });
     }
   },
 }));

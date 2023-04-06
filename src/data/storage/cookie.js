@@ -1,23 +1,50 @@
-import { useCookies } from 'react-cookie';
+import { Cookies } from 'react-cookie';
 
-export const useCookieFunctions = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
+const cookies = new Cookies();
 
-    const saveTokens = (accessToken, refreshToken) => {
-        setCookie('accessToken', accessToken, { path: '/' });
-        setCookie('refreshToken', refreshToken, { path: '/' });
-    };
+const ACCESS_TOKEN_KEY = 'accessToken';
+const REFRESH_TOKEN_KEY = 'refreshToken';
 
-    const removeTokens = () => {
-        removeCookie('accessToken', { path: '/' });
-        removeCookie('refreshToken', { path: '/' });
-    };
-
-    const getToken = () => {
-        const accessToken = cookies.accessToken;
-        const refreshToken = cookies.refreshToken;
-        return { accessToken, refreshToken };
-    };
-
-    return { saveTokens, removeTokens, getToken };
+const defaultOptions = {
+    path: '/',
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+    secure: false,
+    sameSite: 'strict',
 };
+
+const cookieService = {
+    setAccessToken: (value) => {
+        cookies.set(ACCESS_TOKEN_KEY, value, defaultOptions);
+    },
+    getAccessToken: () => {
+        return cookies.get(ACCESS_TOKEN_KEY);
+    },
+    removeAccessToken: () => {
+        cookies.remove(ACCESS_TOKEN_KEY, defaultOptions);
+    },
+    setRefreshToken: (value) => {
+        cookies.set(REFRESH_TOKEN_KEY, value, defaultOptions);
+    },
+    getRefreshToken: () => {
+        return cookies.get(REFRESH_TOKEN_KEY);
+    },
+    removeRefreshToken: () => {
+        cookies.remove(REFRESH_TOKEN_KEY, defaultOptions);
+    },
+    setTokens: (accessToken, refreshToken) => {
+        cookieService.setAccessToken(accessToken);
+        cookieService.setRefreshToken(refreshToken);
+    },
+    getTokens: () => {
+        return {
+            accessToken: cookieService.getAccessToken(),
+            refreshToken: cookieService.getRefreshToken(),
+        };
+    },
+    removeTokens: () => {
+        cookieService.removeAccessToken();
+        cookieService.removeRefreshToken();
+    },
+};
+
+export default cookieService;
