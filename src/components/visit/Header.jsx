@@ -52,9 +52,7 @@ function Header() {
         <Link to="/project">
           <HeaderMenu menu="프로젝트" />
         </Link>
-        <Link to="/in">
-          <ToConsole />
-        </Link>
+        <ToConsole />
       </RightContainer>
     </Container>
   );

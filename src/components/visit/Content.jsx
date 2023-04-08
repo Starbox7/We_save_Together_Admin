@@ -40,19 +40,6 @@ const LeftContainer = styled.div`
 `;
 
 function Content() {
-  const signState = authStore((state) => state.signState);
-  const autoSign = authStore((state) => state.autoSign);
-
-  const [state, setState] = useState(false);
-  useEffect(() => {
-    if (!signState) {
-      (async () => {
-        await autoSign();
-      })()
-    } else {
-      setState(true)
-    }
-  }, [signState])
   return (
     <Container>
       <Header />

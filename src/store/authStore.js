@@ -11,7 +11,7 @@ const authStore = create((set, get) => ({
     name: '',
     hakbun: '',
     email: '',
-    phone: ''
+    phone: '',
   },
   isLoading: false,
 
@@ -102,10 +102,7 @@ const authStore = create((set, get) => ({
     }
   },
   /** sign in */
-  signIn: async () => {
-    set({
-      isLoading: true,
-    });
+  signIn: async (navigateToConsole) => {
     const signData = get().signData;
 
     if (!signData.id) {
@@ -118,6 +115,11 @@ const authStore = create((set, get) => ({
       id: signData.id,
       password: signData.password,
     };
+
+    set({
+      isLoading: true,
+    });
+
     try {
       const res = await auth.signIn(newSignData);
       /** Test!!! */ console.log(`signIn : ${res.data.accessToken}`);
@@ -127,7 +129,7 @@ const authStore = create((set, get) => ({
         throw new Error('No Access Token In Axios');
       }
       if (!refreshToken) {
-        throw new Error('No Refresh Token In Axios')
+        throw new Error('No Refresh Token In Axios');
       }
       cookieService.setTokens(accessToken, refreshToken);
       const tokenCheck = cookieService.getTokens();
@@ -135,14 +137,18 @@ const authStore = create((set, get) => ({
         throw new Error('No Access Token In Cookie');
       }
       if (!tokenCheck.refreshToken) {
-        throw new Error('No Refresh Token In Cookie')
+        throw new Error('No Refresh Token In Cookie');
       }
 
       set({
-        signState: true
-      })
+        signState: true,
+      });
 
-      return window.location.replace('/console');
+      navigateToConsole();
+
+      return set({
+        isLoading: false,
+      });
     } catch (err) {
       /** Test!!! */ console.log(`signIn : ${err}`);
       set({
@@ -163,7 +169,7 @@ const authStore = create((set, get) => ({
           throw new Error('No Access Token In Axios');
         }
         if (!refreshToken) {
-          throw new Error('No Refresh Token In Axios')
+          throw new Error('No Refresh Token In Axios');
         }
         cookieService.setTokens(accessToken, refreshToken);
         const tokenCheck = cookieService.getTokens();
@@ -171,14 +177,18 @@ const authStore = create((set, get) => ({
           throw new Error('No Access Token In Cookie');
         }
         if (!tokenCheck.refreshToken) {
-          throw new Error('No Refresh Token In Cookie')
+          throw new Error('No Refresh Token In Cookie');
         }
 
-        return set({
-          signState: true
-        })
-      }
-      else {
+        set({
+          signState: true,
+        });
+        const state = get().signState;
+        set({
+          isLoading: false,
+        });
+        return state;
+      } else {
         return set({
           isLoading: false,
         });
@@ -188,6 +198,12 @@ const authStore = create((set, get) => ({
         isLoading: false,
       });
     }
+  },
+  signOut: async () => {
+    cookieService.removeTokens();
+    set({
+      signState: false,
+    });
   },
 }));
 
