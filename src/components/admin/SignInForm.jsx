@@ -14,7 +14,9 @@ import TeamImage from '../visit/TeamImage';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 /** */
 import authStore from '../../store/authStore';
-import { useEffect } from 'react';
+import { TextColor } from '../../asset/Colors';
+/** */
+import { useNavigate } from 'react-router-dom';
 
 /** styled-component */
 const Container = styled.div`
@@ -72,6 +74,7 @@ const Button = styled.p`
   background-color: ${DetailBackgroundColor.dbcGreen2};
   font-size: 15px;
   margin: 7px;
+  margin-bottom: 0px;
   width: 150px;
 `;
 const Text = styled.p`
@@ -89,6 +92,20 @@ const Link = styled(OriginalLink)`
   text-decoration: none;
   color: ${AdminColor.Black};
 `;
+const FindContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const FindId = styled.p`
+  display: flex;
+  color: ${TextColor.tcGray};
+  margin-right: 5px;
+`;
+const FindPassword = styled.p`
+  display: flex;
+  color: ${TextColor.tcGray};
+  margin-left: 5px;
+`;
 
 function SignInForm() {
   /** */
@@ -99,7 +116,6 @@ function SignInForm() {
   const setSignData = authStore((state) => state.setSignData);
   const signIn = authStore((state) => state.signIn);
   const isLoading = authStore((state) => state.isLoading);
-  const signState = authStore((state) => state.signState);
   /** */
   const onChange = (e) => {
     setSignData(e.target.id, e.target.value);
@@ -112,49 +128,52 @@ function SignInForm() {
     setEye(eye === true ? false : true);
   };
 
-  useEffect(() => {
-    /** Test!!! */ console.log(`useEffect : signState : ${signState}`);
-    if (signState) {
-      window.location.replace('/console');
-    }
-  }, [])
+  const navigate = useNavigate();
+  const navigateToConsole = () => {
+    navigate('/console');
+  };
 
   return (
     <Container>
-      {
-        isLoading ? (
-          <Loading type="spin" color="#fff" height={20} width={20} />
-        ) : (
-          <>
-            <Header />
-            <SignInContainer>
-              <ImageContainer>
-                <TeamImage />
-              </ImageContainer>
-              <InputContainer>
-                <Text>ID</Text>
-                <Input id="id" placeholder="아이디를 입력하세요" onChange={(e) => onChange(e)} />
-              </InputContainer>
-              <InputContainer>
-                <Text>PW</Text>
-                <Input id="password" type={inputType} placeholder="비밀번호를 입력하세요" onChange={(e) => onChange(e)} />
-                <IconContainer>{eye ? <AiFillEyeInvisible size={20} onClick={() => State()} /> : <AiFillEye size={20} onClick={() => State()} />}</IconContainer>
-              </InputContainer>
-              <ButtonContainer>
-                <Button
-                  style={{ cursor: 'pointer' }}
-                  onClick={async () => {
-                    await signIn();
-                  }}>Sign In</Button>
-                <Link to="/info">
-                  <Button>Sign Up</Button>
-                </Link>
-              </ButtonContainer>
-              <ReCAPTCHA style={{ marginTop: '30px' }} sitekey="Merong-kk" onChange={onRecaptchaChange} />
-            </SignInContainer>
-          </>
-        )
-      }
+      {isLoading ? (
+        <Loading type="spin" color="#fff" height={20} width={20} />
+      ) : (
+        <>
+          <Header />
+          <SignInContainer>
+            <ImageContainer>
+              <TeamImage />
+            </ImageContainer>
+            <InputContainer>
+              <Text>ID</Text>
+              <Input id="id" placeholder="아이디를 입력하세요" onChange={(e) => onChange(e)} />
+            </InputContainer>
+            <InputContainer>
+              <Text>PW</Text>
+              <Input id="password" type={inputType} placeholder="비밀번호를 입력하세요" onChange={(e) => onChange(e)} />
+              <IconContainer>{eye ? <AiFillEyeInvisible size={20} onClick={() => State()} /> : <AiFillEye size={20} onClick={() => State()} />}</IconContainer>
+            </InputContainer>
+            <ButtonContainer>
+              <Button
+                style={{ cursor: 'pointer' }}
+                onClick={async () => {
+                  await signIn(navigateToConsole);
+                }}
+              >
+                Sign In
+              </Button>
+              <Link to="/info">
+                <Button>Sign Up</Button>
+              </Link>
+            </ButtonContainer>
+            <FindContainer>
+              <FindId>가입 아이디 찾기</FindId>
+              <FindPassword>비밀번호 재설정</FindPassword>
+            </FindContainer>
+            <ReCAPTCHA style={{ marginTop: '10px' }} sitekey="Merong-kk" onChange={onRecaptchaChange} />
+          </SignInContainer>
+        </>
+      )}
     </Container>
   );
 }
