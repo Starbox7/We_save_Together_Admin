@@ -8,10 +8,6 @@ import Count from './Count';
 /** import Color */
 import { AdminColor } from '../../asset/Colors';
 
-import authStore from '../../store/authStore';
-
-import { useState, useEffect } from 'react';
-
 /** styled-component */
 const Container = styled.div`
   display: flex;
