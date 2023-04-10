@@ -1,7 +1,12 @@
+// AdminHeader.js
 import styled from 'styled-components';
 import { FcEngineering, FcAbout, FcAnswers, FcBarChart, FcGlobe } from 'react-icons/fc';
 import { IoCaretDownOutline } from 'react-icons/io5';
 import { SlRefresh } from 'react-icons/sl';
+import { Link as OriginalLink } from 'react-router-dom';
+import { AdminColor } from '../../asset/Colors';
+import { useState, useEffect } from 'react';
+import Modal from './AdminModal';
 
 const Container = styled.div`
   display: flex;
@@ -59,19 +64,37 @@ const Refresh = styled.p`
   padding: 13px;
   margin-right: 10px;
 `;
+const Link = styled(OriginalLink)`
+  text-decoration: none;
+  color: ${AdminColor.Black};
+`;
 
 function AdminHeader() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {}, []);
+
   return (
     <Container>
       <TopContainer>
-        <TopText>Dashboard</TopText>
+        <Link to="/">
+          <TopText>Go To Title Screen</TopText>
+        </Link>
         <TopRightContainer>
           <FcBarChart size={20} style={{ marginRight: '13px' }} />
           <FcAbout size={20} style={{ marginRight: '13px' }} />
           <FcAnswers size={20} style={{ marginRight: '13px' }} />
           <FcEngineering size={20} style={{ marginRight: '13px' }} />
           <FcGlobe size={16} style={{ marginRight: '2px', marginLeft: '13px' }} />
-          <AdminName>채지훈</AdminName>
+          <AdminName onClick={handleModalOpen}>채지훈</AdminName>
           <IoCaretDownOutline size={16} style={{ marginRight: '13px' }} />
         </TopRightContainer>
       </TopContainer>
@@ -82,7 +105,9 @@ function AdminHeader() {
           새로고침
         </Refresh>
       </BottomContainer>
+      {isModalOpen && <Modal onClose={handleModalClose} />}
     </Container>
   );
 }
+
 export default AdminHeader;
