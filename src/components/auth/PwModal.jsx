@@ -91,7 +91,7 @@ function PwModal({ onClose }) {
     <ModalContainer>
       <ModalOverlay onClick={onClose} />
       <ModalContent>
-        <h2>비밀번호 찾기</h2>
+        <h2>비밀번호 재설정</h2>
         <InputContainer>
           <Text>ID</Text>
           <Input id="id" placeholder="아이디를 입력하세요" onChange={(e) => onChange(e)} />

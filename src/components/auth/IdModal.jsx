@@ -83,6 +83,7 @@ const Button = styled.p`
 
 function IdModal({ onClose }) {
   const setSignData = authStore((state) => state.setSignData);
+  const findId = authStore((state) => state.findId);
 
   const navigate = useNavigate();
   const navigateToSignIn = () => {
@@ -105,7 +106,12 @@ function IdModal({ onClose }) {
           <Text>Email</Text>
           <Input id="email" placeholder="이메일을 입력하세요" onChange={(e) => onChange(e)} />
         </InputContainer>
-        <Button style={{ cursor: 'pointer' }} onClick={() => {}}>
+        <Button
+          style={{ cursor: 'pointer' }}
+          onClick={async () => {
+            await findId(navigateToSignIn);
+          }}
+        >
           Next
         </Button>
       </ModalContent>
