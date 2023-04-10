@@ -100,13 +100,13 @@ const FindContainer = styled.div`
 `;
 const FindId = styled.p`
   display: flex;
-  color: ${TextColor.tcGray};
+  color: ${TextColor.tcBrown1};
   margin-right: 5px;
   cursor: pointer;
 `;
 const FindPassword = styled.p`
   display: flex;
-  color: ${TextColor.tcGray};
+  color: ${TextColor.tcBrown1};
   margin-left: 5px;
   cursor: pointer;
 `;

@@ -32,12 +32,17 @@ const auth = {
     }
   },
   authConfirm: async (id, phone) => {
-    /** Test!!! */ console.log(`${id}`);
-    /** Test!!! */ console.log(`${phone}`);
     try {
       return await axios.get(`http://127.0.0.1:5001/auth/${id}/${phone}`);
     } catch (err) {
       throw new Error(`axios Error : authConfirm : ${err}`);
+    }
+  },
+  findId: async (findData) => {
+    try {
+      return await axios.post(`http://127.0.0.1:5001/findid`, findData);
+    } catch (err) {
+      throw new Error(`axios Error : findId : ${err} `);
     }
   },
 };
