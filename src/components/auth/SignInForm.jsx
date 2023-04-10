@@ -6,6 +6,8 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import Loading from 'react-loading';
 /** import component */
 import Header from '../visit/Header';
+import IdModal from './IdModal';
+import PwModal from './PwModal';
 /** import Color */
 import { AdminColor, BorderColor, DetailBackgroundColor } from '../../asset/Colors';
 /** import asset */
@@ -100,11 +102,13 @@ const FindId = styled.p`
   display: flex;
   color: ${TextColor.tcGray};
   margin-right: 5px;
+  cursor: pointer;
 `;
 const FindPassword = styled.p`
   display: flex;
   color: ${TextColor.tcGray};
   margin-left: 5px;
+  cursor: pointer;
 `;
 
 function SignInForm() {
@@ -134,6 +138,21 @@ function SignInForm() {
   };
   const navigateToAuth = () => {
     navigate('/auth');
+  };
+
+  const [isIdModalOpen, setIsIdModalOpen] = useState(false);
+  const handleIdModalOpen = () => {
+    setIsIdModalOpen(true);
+  };
+  const handleIdModalClose = () => {
+    setIsIdModalOpen(false);
+  };
+  const [isPwModalOpen, setIsPwModalOpen] = useState(false);
+  const handlePwModalOpen = () => {
+    setIsPwModalOpen(true);
+  };
+  const handlePwModalClose = () => {
+    setIsPwModalOpen(false);
   };
 
   return (
@@ -170,13 +189,15 @@ function SignInForm() {
               </Link>
             </ButtonContainer>
             <FindContainer>
-              <FindId>가입 아이디 찾기</FindId>
-              <FindPassword>비밀번호 재설정</FindPassword>
+              <FindId onClick={handleIdModalOpen}>가입 아이디 찾기</FindId>
+              <FindPassword onClick={handlePwModalOpen}>비밀번호 재설정</FindPassword>
             </FindContainer>
             <ReCAPTCHA style={{ marginTop: '10px' }} sitekey="Merong-kk" onChange={onRecaptchaChange} />
           </SignInContainer>
         </>
       )}
+      {isIdModalOpen && <IdModal onClose={handleIdModalClose} />}
+      {isPwModalOpen && <PwModal onClose={handlePwModalClose} />}
     </Container>
   );
 }

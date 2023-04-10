@@ -235,11 +235,13 @@ const authStore = create((set, get) => ({
     try {
       await auth.authConfirm(id, phone);
       alert('인증 완료!');
+      cookieService.removeAuth();
       return navigateToSignIn();
     } catch (err) {
       return alert(`Error : authConfirm : ${err}`);
     }
   },
+  findId: async (navigateToSignIn) => {},
 }));
 
 export default authStore;

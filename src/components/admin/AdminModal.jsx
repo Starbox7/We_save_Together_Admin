@@ -42,7 +42,6 @@ function AdminModal({ onClose }) {
         <h2>우주 최강 팀원들과</h2>
         <p>넘사벽 클라스를 자랑하는</p>
         <p>팀 코드forDCU</p>
-        {/* 기타 정보를 여기에 추가할 수 있습니다 */}
       </ModalContent>
     </ModalContainer>
   );
