@@ -12,6 +12,7 @@ const authStore = create((set, get) => ({
     hakbun: '',
     email: '',
     phone: '',
+    authNum: '',
   },
   isLoading: false,
 
@@ -102,7 +103,7 @@ const authStore = create((set, get) => ({
     }
   },
   /** sign in */
-  signIn: async (navigateToConsole) => {
+  signIn: async (navigateToConsole, navigateToAuth) => {
     const signData = get().signData;
 
     if (!signData.id) {
@@ -122,7 +123,13 @@ const authStore = create((set, get) => ({
 
     try {
       const res = await auth.signIn(newSignData);
-      /** Test!!! */ console.log(`signIn : ${res.data.accessToken}`);
+      if (!res.data.phone) {
+        navigateToAuth();
+        alert('최초 1회 번호 인증이 필요합니다.');
+        return set({
+          isLoading: false,
+        });
+      }
       const accessToken = res.data.accessToken;
       const refreshToken = res.data.refreshToken;
       if (!accessToken) {
@@ -150,7 +157,6 @@ const authStore = create((set, get) => ({
         isLoading: false,
       });
     } catch (err) {
-      /** Test!!! */ console.log(`signIn : ${err}`);
       set({
         isLoading: false,
       });
@@ -204,6 +210,35 @@ const authStore = create((set, get) => ({
     set({
       signState: false,
     });
+  },
+  authRequest: async () => {
+    const phone = get().signData.phone;
+    if (!phone) {
+      return alert('휴대폰 번호를 입력해주세요.');
+    }
+    try {
+      const res = await auth.authRequest(phone);
+      cookieService.setAuth(res.data.smsNum);
+      return alert('인증번호가 발송되었습니다.');
+    } catch (err) {
+      alert('axios error : authRequest');
+    }
+  },
+  authConfirm: async (navigateToSignIn) => {
+    const authNum = get().signData.authNum;
+    const authCookie = cookieService.getAuth();
+    if (authNum !== authCookie) {
+      return alert('인증번호가 일치하지 않습니다.');
+    }
+    const id = get().signData.id;
+    const phone = get().signData.phone;
+    try {
+      await auth.authConfirm(id, phone);
+      alert('인증 완료!');
+      return navigateToSignIn();
+    } catch (err) {
+      return alert(`Error : authConfirm : ${err}`);
+    }
   },
 }));
 

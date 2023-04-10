@@ -8,6 +8,7 @@ import SignIn from '../page/admin/SignIn';
 import SignInfo from '../page/admin/SignInfo';
 import SignUp from '../page/admin/SignUp';
 import Console from '../page/admin/Console';
+import Auth from '../page/admin/Auth';
 /** */
 import authStore from '../store/authStore';
 import { useEffect } from 'react';
@@ -21,6 +22,7 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/auth" element={<Auth />} />
         <Route path="/console" element={signState ? <Console /> : <SignIn />} />
         <Route path="/up" element={<SignUp />} />
         <Route path="/info" element={<SignInfo />} />

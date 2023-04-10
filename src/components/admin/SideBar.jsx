@@ -6,6 +6,8 @@ import { AiOutlineAlert } from 'react-icons/ai';
 import { MdOutlineManageAccounts } from 'react-icons/md';
 import { VscSignOut } from 'react-icons/vsc';
 
+import authStore from '../../store/authStore';
+
 const Container = styled.div`
   display: flex;
   background-color: #222630;
@@ -86,9 +88,12 @@ const SignOut = styled.p`
   align-items: center;
   color: #7a8fa1;
   font-weight: bold;
+  cursor: pointer;
 `;
 
 function SideBar() {
+  const goSignOut = authStore((state) => state.signOut);
+
   return (
     <Container>
       <LogoContainer>
@@ -120,7 +125,11 @@ function SideBar() {
           <MdOutlineManageAccounts size={20} style={{ marginRight: '15px' }} />
         </Menu>
       </MenuContainer>
-      <SignOut>
+      <SignOut
+        onClick={() => {
+          goSignOut();
+        }}
+      >
         <VscSignOut size={20} style={{ marginRight: '3px' }} />
         Sign Out
       </SignOut>

@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 /** import component */
 import Footer from '../../components/visit/Footer';
-import SignUpForm from '../../components/admin/SignUpForm';
+import SignUpForm from '../../components/auth/SignUpForm';
 /** import Color */
 import { AdminColor } from '../../asset/Colors';
 
