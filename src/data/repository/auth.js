@@ -45,6 +45,27 @@ const auth = {
       throw new Error(`axios Error : findId : ${err} `);
     }
   },
+  findPwConfirm: async (id, phone) => {
+    try {
+      return await axios.post(`http://127.0.0.1:5001/findpw`, { id: id, phone: phone });
+    } catch (err) {
+      throw new Error('axios Error : findPwConfirm');
+    }
+  },
+  updatePw: async (id, password) => {
+    try {
+      return await axios.post(`http://127.0.0.1:5001/updatepw`, { id: id, password: password });
+    } catch (err) {
+      throw new Error('axios Error : updatePw');
+    }
+  },
+  deleteAdmin: async (id) => {
+    try {
+      return await axios.get(`http://127.0.0.1:5001/deleteadmin/${id}`);
+    } catch (err) {
+      throw new Error('axios Error : deleteAdmin');
+    }
+  },
 };
 
 export default auth;

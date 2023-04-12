@@ -151,6 +151,13 @@ const authStore = create((set, get) => ({
         signState: true,
       });
 
+      set({
+        signData: {
+          ...signData,
+          id: res.data.id,
+        },
+      });
+
       navigateToConsole();
 
       return set({
@@ -166,6 +173,7 @@ const authStore = create((set, get) => ({
   },
   autoSign: async () => {
     const token = cookieService.getTokens();
+    const signData = get().signData;
     try {
       if (token.refreshToken) {
         const res = await auth.autoSign(token.refreshToken);
@@ -192,6 +200,12 @@ const authStore = create((set, get) => ({
         const state = get().signState;
         set({
           isLoading: false,
+        });
+        set({
+          signData: {
+            ...signData,
+            id: res.data.id,
+          },
         });
         return state;
       } else {
@@ -252,6 +266,60 @@ const authStore = create((set, get) => ({
       return window.location.replace('/in');
     } catch (err) {
       return alert(`Error in findId : ${err}`);
+    }
+  },
+  findPwConfirm: async () => {
+    const id = get().signData.id;
+    const phone = get().signData.phone;
+    if (!id || !phone) {
+      alert('아이디 또는 전화번호를 입력하세요');
+      return false;
+    }
+    try {
+      const res = await auth.findPwConfirm(id, phone);
+      cookieService.setAuth(res.data.smsNum);
+      alert('인증번호가 발송되었습니다.');
+      return true;
+    } catch (err) {
+      return alert(`Error in findPwConfirm : ${err}`);
+    }
+  },
+  findPw: async () => {
+    const authNum = get().signData.authNum;
+    const authCookie = cookieService.getAuth();
+    if (authNum !== authCookie) {
+      return alert('인증번호가 일치하지 않습니다.');
+    }
+    return true;
+  },
+  resetPw: async () => {
+    const signData = get().signData;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{10,}$/;
+    if (!signData.password) {
+      return alert('비밀번호를 입력해주세요 :D');
+    }
+    if (!passwordRegex.test(signData.password)) {
+      return alert('비밀번호는 최소 1개 이상의 영문 대문자와 소문자, 숫자, 특수문자를 포함한 10자리 이상이여야합니다. :D');
+    }
+    if (signData.password !== signData.confirm) {
+      return alert('비밀번호 재확인이 일치하지 않습니다 :(');
+    }
+    try {
+      await auth.updatePw(signData.id, signData.password);
+      alert('변경 완료!');
+      return window.location.replace('/in');
+    } catch (err) {
+      return alert(`Error in resetPw : ${err}`);
+    }
+  },
+  deleteAdmin: async () => {
+    const id = get().signData.id;
+    try {
+      await auth.deleteAdmin(id);
+      alert('탈퇴완료');
+      return window.location.replace('/');
+    } catch (err) {
+      alert('오류가 발생했습니다 : 오류코드 0x11011010!');
     }
   },
 }));

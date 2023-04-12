@@ -7,6 +7,7 @@ import { Link as OriginalLink } from 'react-router-dom';
 import { AdminColor } from '../../asset/Colors';
 import { useState, useEffect } from 'react';
 import Modal from './AdminModal';
+import authStore from '../../store/authStore';
 
 const Container = styled.div`
   display: flex;
@@ -54,6 +55,8 @@ const TopText = styled.div`
 `;
 const AdminName = styled.p`
   font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
 `;
 const Refresh = styled.p`
   display: flex;
@@ -70,6 +73,8 @@ const Link = styled(OriginalLink)`
 `;
 
 function AdminHeader() {
+  const id = authStore((state) => state.signData.id);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
@@ -94,7 +99,7 @@ function AdminHeader() {
           <FcAnswers size={20} style={{ marginRight: '13px' }} />
           <FcEngineering size={20} style={{ marginRight: '13px' }} />
           <FcGlobe size={16} style={{ marginRight: '2px', marginLeft: '13px' }} />
-          <AdminName onClick={handleModalOpen}>채지훈</AdminName>
+          <AdminName onClick={handleModalOpen}>{id}</AdminName>
           <IoCaretDownOutline size={16} style={{ marginRight: '13px' }} />
         </TopRightContainer>
       </TopContainer>
