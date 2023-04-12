@@ -5,8 +5,6 @@ import { BorderColor } from '../../asset/Colors';
 import authStore from '../../store/authStore';
 import { DetailBackgroundColor } from '../../asset/Colors';
 
-import { useNavigate } from 'react-router-dom';
-
 const ModalContainer = styled.div`
   position: fixed;
   top: 0;
@@ -85,11 +83,6 @@ function IdModal({ onClose }) {
   const setSignData = authStore((state) => state.setSignData);
   const findId = authStore((state) => state.findId);
 
-  const navigate = useNavigate();
-  const navigateToSignIn = () => {
-    navigate('/in');
-  };
-
   const onChange = (e) => {
     setSignData(e.target.id, e.target.value);
   };
@@ -109,7 +102,7 @@ function IdModal({ onClose }) {
         <Button
           style={{ cursor: 'pointer' }}
           onClick={async () => {
-            await findId(navigateToSignIn);
+            await findId();
           }}
         >
           Next

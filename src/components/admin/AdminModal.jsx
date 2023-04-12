@@ -1,6 +1,8 @@
 // src/components/Modal.js
 import React, { useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import authStore from '../../store/authStore';
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -33,15 +35,39 @@ const ModalContent = styled.div`
 `;
 
 function AdminModal({ onClose }) {
-  useEffect(() => {}, []);
+  const [state, setState] = useState(false);
+  const id = authStore((state) => state.signData.id);
+  const deleteAdmin = authStore((state) => state.deleteAdmin);
 
   return (
     <ModalContainer>
       <ModalOverlay onClick={onClose} />
       <ModalContent>
-        <h2>우주 최강 팀원들과</h2>
-        <p>넘사벽 클라스를 자랑하는</p>
-        <p>팀 코드forDCU</p>
+        <h2>We save Together</h2>
+        <h1>{id}</h1>
+        <p style={{ fontWeight: 'bold' }}>from Team Code for Daegu Catholic University</p>
+        {state ? (
+          <>
+            <p style={{ display: 'flex', justifyContent: 'flex-end', fontWeight: 'bold', marginTop: '70px', color: 'red' }}>경고! : 정말로 회원탈퇴를 하시겠습니까?</p>
+            <p
+              onClick={async () => {
+                await deleteAdmin();
+              }}
+              style={{ display: 'flex', justifyContent: 'flex-end', fontWeight: 'bold', color: 'red', cursor: 'pointer' }}
+            >
+              확인시 이 문장을 클릭하세요.
+            </p>
+          </>
+        ) : (
+          <p
+            onClick={() => {
+              setState(true);
+            }}
+            style={{ display: 'flex', justifyContent: 'flex-end', fontWeight: 'bold', marginTop: '70px', color: 'red', cursor: 'pointer' }}
+          >
+            회원탈퇴
+          </p>
+        )}
       </ModalContent>
     </ModalContainer>
   );

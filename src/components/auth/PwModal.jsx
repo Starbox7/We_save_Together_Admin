@@ -78,38 +78,87 @@ const Button = styled.p`
   margin: 7px;
   width: 50px;
 `;
+const ButtonContainer = styled.div`
+  display: flex;
+`;
 
 function PwModal({ onClose }) {
   const setSignData = authStore((state) => state.setSignData);
+  const findPwConfirm = authStore((state) => state.findPwConfirm);
+  const findPw = authStore((state) => state.findPw);
+  const resetPw = authStore((state) => state.resetPw);
 
   const onChange = (e) => {
     setSignData(e.target.id, e.target.value);
   };
-
   const [isConfirm, setIsConfirm] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   return (
     <ModalContainer>
       <ModalOverlay onClick={onClose} />
-      <ModalContent>
-        <h2>비밀번호 재설정</h2>
-        <InputContainer>
-          <Text>ID</Text>
-          <Input id="id" placeholder="아이디를 입력하세요" onChange={(e) => onChange(e)} />
-        </InputContainer>
-        <InputContainer>
-          <Text>Phone</Text>
-          <Input id="phone" placeholder="휴대전화 번호를 입력하세요" onChange={(e) => onChange(e)} />
-        </InputContainer>
-        {isConfirm && (
+      {isConfirm ? (
+        <ModalContent>
+          <h2>비밀번호 재설정</h2>
+          <InputContainer>
+            <Text>Pw</Text>
+            <Input id="password" type="password" placeholder="새 비밀번호를 입력하세요" onChange={(e) => onChange(e)} />
+          </InputContainer>
           <InputContainer>
             <Text>Confirm</Text>
-            <Input id="authNum" placeholder="인증번호를 입력하세요" onChange={(e) => onChange(e)} />
+            <Input id="confirm" type="password" placeholder="비밀번호를 확인하세요" onChange={(e) => onChange(e)} />
           </InputContainer>
-        )}
-        <Button style={{ cursor: 'pointer' }} onClick={() => {}}>
-          Next
-        </Button>
-      </ModalContent>
+          <Button
+            style={{ cursor: 'pointer' }}
+            onClick={async () => {
+              await resetPw();
+            }}
+          >
+            Next
+          </Button>
+        </ModalContent>
+      ) : (
+        <ModalContent>
+          <h2>관리자 인증</h2>
+          <InputContainer>
+            <Text>ID</Text>
+            <Input id="id" placeholder="아이디를 입력하세요" onChange={(e) => onChange(e)} />
+          </InputContainer>
+          <InputContainer>
+            <Text>Phone</Text>
+            <Input id="phone" placeholder="휴대전화 번호를 입력하세요" onChange={(e) => onChange(e)} />
+          </InputContainer>
+          {confirm ? (
+            <InputContainer>
+              <Text>Confirm</Text>
+              <Input id="authNum" placeholder="인증번호를 입력하세요" onChange={(e) => onChange(e)} />
+            </InputContainer>
+          ) : (
+            <></>
+          )}
+          <ButtonContainer>
+            <Button
+              style={{ cursor: 'pointer' }}
+              onClick={async () => {
+                setConfirm(await findPwConfirm());
+              }}
+            >
+              Confirm
+            </Button>
+            {confirm ? (
+              <Button
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  setIsConfirm(findPw());
+                }}
+              >
+                Next
+              </Button>
+            ) : (
+              <></>
+            )}
+          </ButtonContainer>
+        </ModalContent>
+      )}
     </ModalContainer>
   );
 }
