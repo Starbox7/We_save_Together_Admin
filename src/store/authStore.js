@@ -241,21 +241,17 @@ const authStore = create((set, get) => ({
       return alert(`Error : authConfirm : ${err}`);
     }
   },
-  findId: async (navigateToSignIn) => {
+  findId: async () => {
     const hakbun = get().signData.hakbun;
     const email = get().signData.email;
-    if (!hakbun) {
-      return alert('학번을 입력해주세요.');
-    }
-    if (!email) {
-      return alert('이메일을 입력해주세요.');
-    }
     try {
+      /** Test!!! */ console.log(`check : ${hakbun} and ${email}`);
       const res = await auth.findId({ hakbun, email });
-      alert(`아이디 : ${res.data.id}`);
-      window.location.replace('/in');
+      const id = res.data.id;
+      alert(`확인 : 아이디는 ${id} 입니다.`);
+      return window.location.replace('/in');
     } catch (err) {
-      return alert(`Error : findId : ${err}`);
+      return alert(`Error in findId : ${err}`);
     }
   },
 }));
