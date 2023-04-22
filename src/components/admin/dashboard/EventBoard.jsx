@@ -4,6 +4,7 @@ import { AiOutlineSetting, AiOutlineQuestionCircle, AiOutlineShareAlt } from 're
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   width: 26vw;
   margin-right: 25px;
   margin-bottom: 25px;
@@ -37,6 +38,7 @@ function EventBoard() {
           <AiOutlineShareAlt size={15} style={{ marginRight: '10px' }} />
         </IconContainer>
       </TitleContainer>
+      <p>이벤트 관리</p>
     </Container>
   );
 }

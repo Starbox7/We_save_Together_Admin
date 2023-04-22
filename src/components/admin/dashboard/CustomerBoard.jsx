@@ -4,6 +4,7 @@ import { AiOutlineSetting, AiOutlineQuestionCircle, AiOutlineShareAlt } from 're
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   width: 26vw;
   margin-right: 25px;
   margin-bottom: 25px;
@@ -37,6 +38,7 @@ function CustomerBoard() {
           <AiOutlineShareAlt size={15} style={{ marginRight: '10px' }} />
         </IconContainer>
       </TitleContainer>
+      <p>고객 요구사항</p>
     </Container>
   );
 }

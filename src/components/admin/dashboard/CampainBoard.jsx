@@ -38,6 +38,7 @@ function CampainBoard() {
           <AiOutlineShareAlt size={15} style={{ marginRight: '10px' }} />
         </IconContainer>
       </TitleContainer>
+      <p>캠페인 통계</p>
     </Container>
   );
 }

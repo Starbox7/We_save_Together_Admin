@@ -38,6 +38,7 @@ function AlertBoard() {
           <AiOutlineShareAlt size={15} style={{ marginRight: '10px' }} />
         </IconContainer>
       </TitleContainer>
+      <p>신고 / 경고 리스트 요약화면</p>
     </Container>
   );
 }
