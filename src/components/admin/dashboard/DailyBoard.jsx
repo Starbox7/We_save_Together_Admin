@@ -38,6 +38,7 @@ function AlertBoard() {
           <AiOutlineShareAlt size={15} style={{ marginRight: '10px' }} />
         </IconContainer>
       </TitleContainer>
+      <p>서비스 방문자 통계</p>
     </Container>
   );
 }
